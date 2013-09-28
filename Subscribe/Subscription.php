@@ -12,16 +12,26 @@ namespace IdnoPlugins\Subscribe {
             $this->subscriber = $this->getInput('subscriber');
             $this->subscription = $this->getInput('subscribe');
             
+            // For reference, store the domain part so we can quickly see if it's a recognised domain before performing a MF2 parse
+            $this->subscription_domain = parse_url($this->subscription, PHP_URL_HOST);
+            
             // Now fetch MF2 of the subscription url
-            $content = \Idno\Core\Webmention::getPageContent($this->subscription);
+            $content = \Idno\Core\Webservice::get($this->subscription);
             $this->subscription_mf2 = \Idno\Core\Webmention::parseContent($content['content']);
+            
+            // Get the endpoint
+             // Get subscriber endpoint
+            if (preg_match('/<link href="([^"]+)" rel="http://www.marcus-povey.co.uk/2013/09/26/thoughts-simple-distributed-friendfollowsubscribe-scheme/" ?\/?>/i', $content, $match)) {
+                $this->subscription_endpoint = $match[1];
+            } else
+                throw new SubscriptionException('No subscription endpoint found.');
             
             return $this->save();
 
         }
         
         
-        
+        // TODO: Method to notify creation and deletion
         
     }
 
