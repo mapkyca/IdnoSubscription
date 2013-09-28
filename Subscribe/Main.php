@@ -21,6 +21,31 @@
 				
             }
             
+            function registerEventHooks() {
+                \Idno\Core\site()->addEventHook('save', function(\Idno\Core\Event $event) {
+                    $object = $event->data()['object'];
+                
+                    // Check that this is an activity stream object, then notify subscriptions
+                    if ($object->getActivityStreamsObjectType()) {
+                        
+                        // Get subscriptions
+                        if ($result = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscriber', ['subscription' => \Idno\Core\site()->session()->currentUserUUID()])) {
+                            
+                            foreach ($result as $subscriber) {
+                                $subscriber->notify($object->getUUID());
+                            }
+                            
+                        }
+			
+                    }
+                    
+                });
+                
+                
+                // TODO: Send deletes
+            }
+            
+            
             /**
              * Subscribe the logged in user to a given profile UUID 
              * @param type $profile_uuid
@@ -30,5 +55,6 @@
                 
                 // If remote request successful, then create a local Subscription object
             }
+            
         }
     }

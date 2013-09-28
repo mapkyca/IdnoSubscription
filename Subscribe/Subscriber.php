@@ -21,6 +21,15 @@ namespace IdnoPlugins\Subscribe {
         }
         
         
+        /**
+         * Inform people who are subscribed to the currently logged in user that an update has taken place
+         * @param type $permalink
+         * @param string method CREATE_UPDATE, or DELETE
+         */
+        function notify($permalink, $method = 'CREATE_UPDATE' ) {
+
+
+        }
         
         
     }

@@ -33,7 +33,7 @@ namespace IdnoPlugins\Subscribe\Pages {
             // Post create / update
             else if (!empty($this->getInput('subscription')))
             {
-                    
+                
                 
             
             }
@@ -47,6 +47,9 @@ namespace IdnoPlugins\Subscribe\Pages {
                 // load subscribe , get owner object
                 
                 
+                
+                
+                //TODO: check authentication here
             }
             
             // Post removal
