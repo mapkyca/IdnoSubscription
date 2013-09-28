@@ -11,10 +11,51 @@ namespace IdnoPlugins\Subscribe\Pages {
 
         function postContent() {
             
+            // Subscription request
+            if ((!empty($this->getInput('subscriber'))) && (!empty($this->getInput('subscribe')))) 
+            {
+                // load subscribe , get owner object
+                if ($subscribing_to = \Idno\Entities\User::getByUUID($this->getInput('subscribe')))
+                {
+                    $subscriber = new \IdnoPlugins\Subscribe\Subscriber();
+                    if ($subscriber->saveDataFromInput()) 
+                    {
+                        $this->setResponse(202); // Accepted request
+                        echo "OK";
+                    }
+                    else {
+                        $this->setResponse(400);
+                        echo "Subscription not made, most likely your profile URL is not accessible.";
+                    }
+                }
+                
+            }
+            // Post create / update
+            else if (!empty($this->getInput('subscription')))
+            {
+                    
+                
+            
+            }
         }
 
         function deleteContent() {
             
+            // Subscription removal
+            if ((!empty($this->getInput('subscriber'))) && (!empty($this->getInput('subscribe')))) 
+            {
+                // load subscribe , get owner object
+                
+                
+            }
+            
+            // Post removal
+            else if (!empty($this->getInput('subscription')))
+            {
+                    
+                
+            
+            }
         }
 
     }
