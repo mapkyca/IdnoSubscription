@@ -46,7 +46,7 @@ namespace IdnoPlugins\Subscribe\Pages {
                         // Get MF2
                         if ($content = \Idno\Core\Webservice::get($permalink)) {
                         
-                            if ($mf2 = \Idno\Core\Webmention::parseContent($content)) {
+                            if ($mf2 = \Idno\Core\Webmention::parseContent($content['content'])) {
                                 
                                 // Get owner details
                                 $owner = [];
