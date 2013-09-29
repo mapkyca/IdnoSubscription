@@ -68,14 +68,14 @@ namespace IdnoPlugins\Subscribe {
 
                 // Look for webmention in header
                 foreach ($headers as $header) {
-                    if ((preg_match('~<(https?://[^>]+)>; rel="http://www.marcus-povey.co.uk/2013/09/26/thoughts-simple-distributed-friendfollowsubscribe-scheme/"~', $header, $match)) && (!$endpoint_url)) {
+                    if ((preg_match('~<(https?://[^>]+)>; rel="http://mapkyc.me/1dM84ud"~', $header, $match)) && (!$endpoint_url)) {
                         $endpoint_url = $match[1];
                     }
                 }
 
                 // If not there, look for webmention in body
                 if (!$endpoint_url) {
-                    if (preg_match('/<link href="([^"]+)" rel="http://www.marcus-povey.co.uk/2013/09/26/thoughts-simple-distributed-friendfollowsubscribe-scheme/" ?\/?>/i', $page, $match)) {
+                    if (preg_match('/<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>/i', $page, $match)) {
                         $endpoint_url = $match[1];
                     }
                 }

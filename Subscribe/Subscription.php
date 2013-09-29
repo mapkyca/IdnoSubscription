@@ -21,7 +21,7 @@ namespace IdnoPlugins\Subscribe {
             
             // Get the endpoint
              // Get subscriber endpoint
-            if (preg_match('/<link href="([^"]+)" rel="http://www.marcus-povey.co.uk/2013/09/26/thoughts-simple-distributed-friendfollowsubscribe-scheme/" ?\/?>/i', $content, $match)) {
+            if (preg_match('/<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>/i', $content, $match)) {
                 $this->subscription_endpoint = $match[1];
             } else
                 throw new SubscriptionException('No subscription endpoint found.');

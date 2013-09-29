@@ -11,9 +11,15 @@ namespace IdnoPlugins\Subscribe\Pages {
 
         function postContent() {
             
+            $subscriber = $this->getInput('subscriber');
+            $subscribe = $this->getInput('subscribe');
+
+            $permalink = $this->getInput('subscription');
+
             try {
-                // Subscription request
-                if ((!empty($this->getInput('subscriber'))) && (!empty($this->getInput('subscribe')))) 
+                
+                // Subscription request    
+                if ((!empty($subscriber)) && (!empty($subscribe))) 
                 {
                     // load subscribe , get owner object
                     if ($subscribing_to = \Idno\Entities\User::getByUUID($this->getInput('subscribe')))
@@ -30,10 +36,8 @@ namespace IdnoPlugins\Subscribe\Pages {
 
                 }
                 // Post create / update ping
-                else if (!empty($this->getInput('subscription')))
+                else if (!empty($permalink))
                 {
-                    $permalink = $this->getInput('subscription');
-                    
                     // Check we have a domain
                     if ($subs_on_domain = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscription', ['subscription_domain' =>  parse_url($permalink, PHP_URL_HOST)])) {
                         // Get MF2
@@ -78,7 +82,7 @@ namespace IdnoPlugins\Subscribe\Pages {
                                     foreach ($subscriptions as $subscription) {
                                
                                         // For each subscription to that author, notify interested party
-                                        \Idno\Core\site()->triggerEvent('subscription/ping', [
+                                        \Idno\Core\site()->triggerEvent('subscription/post/update', [
                                             'permalink' => $permalink,
                                             'data' => $mf2,
                                             'subscription' => $subscription,
@@ -111,9 +115,14 @@ namespace IdnoPlugins\Subscribe\Pages {
 
         function deleteContent() {
             
+            $subscriber = $this->getInput('subscriber');
+            $subscribe = $this->getInput('subscribe');
+
+            $permalink = $this->getInput('subscription');
+            
             try {
                 // Subscription removal
-                if ((!empty($this->getInput('subscriber'))) && (!empty($this->getInput('subscribe')))) 
+                if ((!empty($subscriber)) && (!empty($subscribe))) 
                 {
                     // load subscribe , get owner object
 
@@ -124,9 +133,12 @@ namespace IdnoPlugins\Subscribe\Pages {
                 }
 
                 // Post removal
-                else if (!empty($this->getInput('subscription')))
+                else if (!empty($permalink))
                 {
 
+                    // Get subscriptions
+                    
+                    // Set tombstones
 
 
                 }
