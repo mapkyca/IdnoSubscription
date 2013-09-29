@@ -43,49 +43,16 @@ namespace IdnoPlugins\Subscribe {
             // TODO: Send deletes
         }
 
+
         /**
-         * Subscribe the logged in user to a given profile UUID 
-         * @param type $profile_uuid
-         */
-        function subscribe($profile_uuid) {
-            // Subscribe to a user
-            // If remote request successful, then create a local Subscription object
-        }
-
-        
-        /** 
-         * Extract the endpoint URL
+         * Often we're dealing with profile urls not UUIDs, so this gets a user by their profile ID.
          * @param type $url
-         * @return boolean
          */
-        static function findEndpoint($url) {
-            if ($page = file_get_contents($url)) {
-
-                $endpoint_url = null;
-
-                // Get headers from request
-                $headers = $http_response_header;
-
-                // Look for webmention in header
-                foreach ($headers as $header) {
-                    if ((preg_match('~<(https?://[^>]+)>; rel="http://mapkyc.me/1dM84ud"~', $header, $match)) && (!$endpoint_url)) {
-                        $endpoint_url = $match[1];
-                    }
-                }
-
-                // If not there, look for webmention in body
-                if (!$endpoint_url) {
-                    if (preg_match('/<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>/i', $page, $match)) {
-                        $endpoint_url = $match[1];
-                    }
-                }
-
-                if ($endpoint_url)
-                    return $endpoint_url;
-            }
+        static function getUserByProfileURL($url) {
+            if (preg_match("~".\Idno\Core\site()->config()->url . 'profile/([A-Za-z0-9]+)?~', $url, $matches))
+                    return \Idno\Entities\User::getByHandle ($matches[1]);
             return false;
         }
-
 
     }
 

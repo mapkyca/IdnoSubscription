@@ -9,15 +9,16 @@ namespace IdnoPlugins\Subscribe {
         function saveDataFromInput() {
             
             // Create and update subscription object
-            $this->subscriber = $this->getInput('subscriber');
-            $this->subscription = $this->getInput('subscribe');
+            $this->subscriber = \Idno\Core\site()->currentPage()->getInput('subscriber');
+            $this->subscription = \Idno\Core\site()->currentPage()->getInput('subscribe');
             
             // Now fetch MF2 of the subscriber url
             $content = \Idno\Core\Webservice::get($this->subscriber);
             $this->subscriber_mf2 = \Idno\Core\Webmention::parseContent($content['content']);
             
             // Get subscriber endpoint
-            if (preg_match('/<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>/i', $content, $match)) {
+            /*if (preg_match('/<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>/i', $content['content'], $match)) {*/
+            if (preg_match('~<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>~', $content['content'], $match)) {
                 $this->subscriber_endpoint = $match[1];
             } else
                 throw new SubscriptionException('No subscriber endpoint found.');

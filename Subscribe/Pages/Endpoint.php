@@ -9,7 +9,7 @@ namespace IdnoPlugins\Subscribe\Pages {
             echo "This is a subscribe endpoint (see http://www.marcus-povey.co.uk/2013/09/26/thoughts-simple-distributed-friendfollowsubscribe-scheme/). Use POST or DELETE methods to communicate with me";
         }
 
-        function postContent() {
+        function post() {
             
             $subscriber = $this->getInput('subscriber');
             $subscribe = $this->getInput('subscribe');
@@ -22,7 +22,7 @@ namespace IdnoPlugins\Subscribe\Pages {
                 if ((!empty($subscriber)) && (!empty($subscribe))) 
                 {
                     // load subscribe , get owner object
-                    if ($subscribing_to = \Idno\Entities\User::getByUUID($this->getInput('subscribe')))
+                    if (($subscribing_to = \Idno\Entities\User::getByUUID($subscribe)) || ($subscribing_to = \IdnoPlugins\Subscribe\Main::getUserByProfileURL($subscribe)))
                     {
                         $subscriber = new \IdnoPlugins\Subscribe\Subscriber();
                         if ($subscriber->saveDataFromInput()) 
@@ -33,6 +33,8 @@ namespace IdnoPlugins\Subscribe\Pages {
                         else throw new \IdnoPlugins\Subscribe\SubscriptionException("Subscription not made, most likely your profile URL is not accessible.");
                         
                     }
+                    else
+                        throw new \IdnoPlugins\Subscribe\SubscriptionException("Could not get user identified by $subscribe");
 
                 }
                 // Post create / update ping
@@ -107,9 +109,13 @@ namespace IdnoPlugins\Subscribe\Pages {
                         throw new \IdnoPlugins\Subscribe\SubscriptionException("Permalink from unrecognised domain");
                     }
                 }
-            } catch (IdnoPlugins\Subscribe\SubscriptionException $e) {
+                else {
+                    throw new \IdnoPlugins\Subscribe\ubscriptionException("Unknown method");
+                }
+ 
+            } catch (\IdnoPlugins\Subscribe\SubscriptionException $e) {
                 $this->setResponse(400);
-                echo $e->getMessage();
+                echo $e->getMessage(); echo "\n";
             }
         }
 
@@ -142,7 +148,7 @@ namespace IdnoPlugins\Subscribe\Pages {
 
 
                 }
-            } catch (IdnoPlugins\Subscribe\SubscriptionException $e) {
+            } catch (\IdnoPlugins\Subscribe\SubscriptionException $e) {
                 $this->setResponse(400);
                 echo $e->getMessage();
             }
