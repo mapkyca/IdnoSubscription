@@ -1,0 +1,3 @@
+#!/bin/sh
+# Test script for executing certain things prior to there bein a nice UI for them...
+curl -i --data "subscriber=$1&subscribe=$2" $3
