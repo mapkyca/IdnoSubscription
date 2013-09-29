@@ -12,6 +12,10 @@ namespace IdnoPlugins\Subscribe {
             $this->subscriber = \Idno\Core\site()->currentPage()->getInput('subscriber');
             $this->subscription = \Idno\Core\site()->currentPage()->getInput('subscribe');
             
+            // Check duplicates
+            if ($result = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscriber', ['subscriber' =>  $this->subscriber, 'subscription' => $this->subscription]))
+                    throw new SubscriptionException("{$this->subscriber} already subscribed to updates from {$this->subscription}");
+            
             // Now fetch MF2 of the subscriber url
             $content = \Idno\Core\Webservice::get($this->subscriber);
             $this->subscriber_mf2 = \Idno\Core\Webmention::parseContent($content['content']);

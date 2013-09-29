@@ -24,6 +24,7 @@ namespace IdnoPlugins\Subscribe\Pages {
                     // load subscribe , get owner object
                     if (($subscribing_to = \Idno\Entities\User::getByUUID($subscribe)) || ($subscribing_to = \IdnoPlugins\Subscribe\Main::getUserByProfileURL($subscribe)))
                     {
+                        // Create subscription
                         $subscriber = new \IdnoPlugins\Subscribe\Subscriber();
                         if ($subscriber->saveDataFromInput()) 
                         {
