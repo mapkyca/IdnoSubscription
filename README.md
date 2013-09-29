@@ -5,7 +5,7 @@ This plugin represents a first stab at distributed friend/follow/update notifica
 
 Once installed, this plugin provides the ability to follow other indieweb/idno sites that implement this protocol. 
 
-**Important: This is highly experimental at the moment, and the protocol may be changed and replaced without warning **
+**Important: This is highly experimental at the moment, and the protocol may be changed and replaced without warning**
 
 Installation
 ------------
