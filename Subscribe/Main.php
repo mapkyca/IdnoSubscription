@@ -18,6 +18,10 @@ namespace IdnoPlugins\Subscribe {
             // Register endpoint
             \Idno\Core\site()->addPageHandler('/subscribe/?', '\IdnoPlugins\Subscribe\Pages\Endpoint');
 
+            // Edit pages
+            \Idno\Core\site()->addPageHandler('/subscription/edit/?', '\IdnoPlugins\Subscribe\Pages\Subscription\Edit');
+            \Idno\Core\site()->addPageHandler('/subscription/edit/([A-Za-z0-9]+)/?', '\IdnoPlugins\Subscribe\Pages\Subscription\Edit');
+            
             // Add header
             \Idno\Core\site()->template()->extendTemplate('shell/head', 'subscribe/header');
         }

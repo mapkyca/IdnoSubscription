@@ -4,7 +4,9 @@ namespace IdnoPlugins\Subscribe {
 
     class Subscription extends \Idno\Common\Entity {
         
-        
+        function getActivityStreamsObjectType() {
+            return 'false';
+        }
         
         function saveDataFromInput() {
             
