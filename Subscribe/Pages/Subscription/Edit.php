@@ -40,7 +40,7 @@ namespace IdnoPlugins\Subscribe\Pages\Subscription {
                 if (!$subscription->saveDataFromInput())
                     throw new \IdnoPlugins\Subscribe\SubscriptionException("Sorry, your new subscription could not be saved.");
             
-            } catch (IdnoPlugins\Subscribe\SubscriptionException $e) {
+            } catch (\IdnoPlugins\Subscribe\SubscriptionException $e) {
                 \Idno\Core\site()->session()->addMessage($e->getMessage());
                 $this->forward();
             }
