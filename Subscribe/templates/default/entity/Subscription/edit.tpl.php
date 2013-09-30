@@ -12,7 +12,7 @@
             <p>
                 <label>
                     Profile Url
-                <input type="url" name="subscription" value="<?=$vars['subscription'];?>" />
+                <input type="url" name="subscribe" value="<?=$vars['subscribe'];?>" />
                 </label>
             </p>
             <p>

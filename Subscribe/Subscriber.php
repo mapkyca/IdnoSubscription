@@ -15,17 +15,22 @@ namespace IdnoPlugins\Subscribe {
             // Check duplicates
             if ($result = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscriber', ['subscriber' =>  $this->subscriber, 'subscription' => $this->subscription]))
                     throw new SubscriptionException("{$this->subscriber} already subscribed to updates from {$this->subscription}");
-            
-            // Now fetch MF2 of the subscriber url
-            $content = \Idno\Core\Webservice::get($this->subscriber);
-            $this->subscriber_mf2 = \Idno\Core\Webmention::parseContent($content['content']);
-            
-            // Get subscriber endpoint
-            /*if (preg_match('/<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>/i', $content['content'], $match)) {*/
-            if (preg_match('~<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>~', $content['content'], $match)) {
-                $this->subscriber_endpoint = $match[1];
-            } else
-                throw new SubscriptionException('No subscriber endpoint found.');
+
+            if ($content = \Idno\Core\Webservice::get($this->subscriber)) {
+                    
+                // Now fetch MF2 of the subscriber url
+                
+                $this->subscriber_mf2 = \Idno\Core\Webmention::parseContent($content['content']);
+
+                // Get subscriber endpoint
+                /*if (preg_match('/<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>/i', $content['content'], $match)) {*/
+                if (preg_match('~<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>~', $content['content'], $match)) {
+                    $this->subscriber_endpoint = $match[1];
+                } else
+                    throw new SubscriptionException('No subscriber endpoint found.');
+            }
+            else
+                throw new SubscriptionException("Page {$this->subscription} could not be reached.");
             
             return $this->save();
 

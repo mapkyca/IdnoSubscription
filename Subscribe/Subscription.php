@@ -14,24 +14,29 @@ namespace IdnoPlugins\Subscribe {
             $this->subscriber = \Idno\Core\site()->currentPage()->getInput('subscriber');
             $this->subscription = \Idno\Core\site()->currentPage()->getInput('subscribe');
 
+
             // Check duplicates
             if ($result = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscription', ['subscriber' => $this->subscriber, 'subscription' => $this->subscription]))
                 throw new SubscriptionException("{$this->subscriber} already subscribed to updates from {$this->subscription}");
 
-            // For reference, store the domain part so we can quickly see if it's a recognised domain before performing a MF2 parse
-            $this->subscription_domain = parse_url($this->subscription, PHP_URL_HOST);
+            if ($content = \Idno\Core\Webservice::get($this->subscription)) {
 
-            // Now fetch MF2 of the subscription url
-            $content = \Idno\Core\Webservice::get($this->subscription);
-            $this->subscription_mf2 = \Idno\Core\Webmention::parseContent($content['content']);
+                // For reference, store the domain part so we can quickly see if it's a recognised domain before performing a MF2 parse
+                $this->subscription_domain = parse_url($this->subscription, PHP_URL_HOST);
 
-            // Get the endpoint
-            // Get subscriber endpoint
-            if (preg_match('~<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>~', $content['content'], $match)) {
-                $this->subscription_endpoint = $match[1];
+                // Now fetch MF2 of the subscription url
+                $this->subscription_mf2 = \Idno\Core\Webmention::parseContent($content['content']);
+
+                // Get the endpoint
+                // Get subscriber endpoint
+                if (preg_match('~<link href="([^"]+)" rel="http://mapkyc.me/1dM84ud" ?\/?>~', $content['content'], $match)) {
+                    $this->subscription_endpoint = $match[1];
+                }
+                else
+                    throw new SubscriptionException('No subscription endpoint found.');
             }
             else
-                throw new SubscriptionException('No subscription endpoint found.');
+                throw new SubscriptionException("Page {$this->subscription} could not be reached.");
 
             return $this->save();
         }
