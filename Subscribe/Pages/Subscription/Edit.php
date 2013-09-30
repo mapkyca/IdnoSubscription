@@ -32,14 +32,20 @@ namespace IdnoPlugins\Subscribe\Pages\Subscription {
         function postContent() {
             $this->gatekeeper();
             
+            try {
+                
+                $this->setInput('subscriber', \Idno\Core\site()->session()->currentUser()->getUrl());
             
+                $subscription = new \IdnoPlugins\Subscribe\Subscription();
+                if (!$subscription->saveDataFromInput())
+                    throw new \IdnoPlugins\Subscribe\SubscriptionException("Sorry, your new subscription could not be saved.");
             
+            } catch (IdnoPlugins\Subscribe\SubscriptionException $e) {
+                \Idno\Core\site()->session()->addMessage($e->getMessage());
+                $this->forward();
+            }
             
-            // TODO: Create and subscribe
-            
-            
-            
-            
+            $this->forward('/subscriptions/');
         }
         
 
