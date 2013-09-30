@@ -17,9 +17,11 @@
             </p>
             <p>
                 <?= \Idno\Core\site()->actions()->signForm('/subscription/edit') ?>
-                <input type="submit" class="btn btn-primary" value="Save"/>
+                <input type="submit" class="btn btn-primary" value="Subscribe"/>
                 <input type="button" class="btn" value="Cancel" onclick="hideContentCreateForm();"/>
+                
             </p>
+            <p><a href="/subscriptions/">View my subscriptions...</a></p>
         </div>
 
     </div>

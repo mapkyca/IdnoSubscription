@@ -34,6 +34,9 @@ namespace IdnoPlugins\Subscribe {
                 }
                 else
                     throw new SubscriptionException('No subscription endpoint found.');
+                
+                // Attempt to subscribe (makes sure object is not created unless we've got a +ve response from remote server)
+                $subscription->subscribe();
             }
             else
                 throw new SubscriptionException("Page {$this->subscription} could not be reached.");
