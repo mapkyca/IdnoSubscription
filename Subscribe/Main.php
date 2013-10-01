@@ -22,6 +22,7 @@ namespace IdnoPlugins\Subscribe {
             \Idno\Core\site()->addPageHandler('/subscription/edit/?', '\IdnoPlugins\Subscribe\Pages\Subscription\Edit');
             \Idno\Core\site()->addPageHandler('/subscription/edit/([A-Za-z0-9]+)/?', '\IdnoPlugins\Subscribe\Pages\Subscription\Edit');
             \Idno\Core\site()->addPageHandler('/subscriptions/?', '\IdnoPlugins\Subscribe\Pages\Subscription\ListAll');
+            \Idno\Core\site()->addPageHandler('/subscribers/?', '\IdnoPlugins\Subscribe\Pages\Subscriber\ListAll');
             
             // Add header
             \Idno\Core\site()->template()->extendTemplate('shell/head', 'subscribe/header');
