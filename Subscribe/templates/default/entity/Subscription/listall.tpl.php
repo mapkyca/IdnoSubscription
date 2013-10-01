@@ -1,7 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+    if (!empty($vars['objects'])) {
+        foreach($vars['objects'] as $entry) { 
+            echo $this->__(['object' => $entry])->draw('entity/Subscription');
+        }
+    }
+
 ?>

@@ -48,37 +48,9 @@ namespace IdnoPlugins\Subscribe\Pages {
                         
                             if ($mf2 = \Idno\Core\Webmention::parseContent($content['content'])) {
                                 
-                                // Get owner details
-                                $owner = [];
+                                // Get the owner details from MF2
+                                $owner = \IdnoPlugins\Subscribe\Main::getAuthorFromMF2($mf2);
                                 
-                                // A first pass for overall owner ...
-                                foreach ($mf2['items'] as $item) {
-
-                                    // Figure out what kind of Microformats 2 item we have
-                                    if (!empty($item['type']) && is_array($item['type'])) {
-                                        foreach ($item['type'] as $type) {
-
-                                            switch($type) {
-                                                case 'h-card':
-                                                    if (!empty($item['properties'])) {
-                                                        if (!empty($item['properties']['name'])) $owner['name'] = $item['properties']['name'][0];
-                                                        if (!empty($item['properties']['url'])) $owner['url'] = $item['properties']['url'][0];
-                                                        if (!empty($item['properties']['photo'])) $owner['photo'] = $item['properties']['photo'][0];
-                                                    }
-                                                    break;
-                                            }
-                                            if (!empty($owner)) {
-                                                break;
-                                            }
-
-                                        }
-                                    }
-
-                                }
-
-                                if (empty($owner))
-                                    throw new \IdnoPlugins\Subscribe\SubscriptionException("Could not find owner in Microformats data, please visit indiewebcamp for help in marking up your page!");
-
                                 // Check that author is a valid subscription
                                 if ($subscriptons = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscription', ['subscription' =>  $owner['url']]))
                                 {

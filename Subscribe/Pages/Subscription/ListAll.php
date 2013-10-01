@@ -9,8 +9,7 @@ namespace IdnoPlugins\Subscribe\Pages\Subscription {
 
             $t = \Idno\Core\site()->template();
             $body = $t->__(array(
-                'object' => $object,
-                'url' => $this->getInput('url'),
+                'objects' => \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscription', ['owner' => \Idno\Core\site()->session()->currentUserUUID()])
             ))->draw('entity/Subscription/listall');
 
                 $title = 'Your friends';
