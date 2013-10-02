@@ -23,7 +23,9 @@ Todo
 ----
 * [X] Subscription support
 * [X] Notify API support
-* [ ] Implement a UI for the above
+* [X] Implement a UI for the above
+
+Also, I recommend https://github.com/mapkyca/IdnoSubscriptionNotification
 
 Licence
 -------
