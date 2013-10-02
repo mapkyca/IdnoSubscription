@@ -63,6 +63,43 @@ namespace IdnoPlugins\Subscribe {
         }
         
         /**
+         * Get content (h-entry) from the content.
+         * @param type $mf2
+         */
+        static function getContentFromMF2($mf2) {
+            
+            $content = [];
+            
+            // A first pass for overall owner ...
+            foreach ($mf2['items'] as $item) {
+
+                // Figure out what kind of Microformats 2 item we have
+                if (!empty($item['type']) && is_array($item['type'])) {
+                    foreach ($item['type'] as $type) {
+
+                        switch($type) {
+                            case 'h-entry':
+                                if (!empty($item['properties'])) {
+                                    if (!empty($item['properties']['name'])) $content['name'] = $item['properties']['name'][0];
+                                    if (!empty($item['properties']['published'])) $content['published'] = $item['properties']['published'][0];
+                                    if (!empty($item['properties']['content'])) $content['content'] = $item['properties']['content'][0];
+                                }
+                                break;
+                        }
+                        if (!empty($content)) {
+                            break;
+                        }
+
+                    }
+                }
+
+            }
+
+
+            return $content;
+        }
+        
+        /**
          * Return author details from MF2.
          * @param type $mf2
          * @return type
