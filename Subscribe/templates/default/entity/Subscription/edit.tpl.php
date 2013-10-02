@@ -21,8 +21,13 @@
                 <input type="button" class="btn" value="Cancel" onclick="hideContentCreateForm();"/>
                 
             </p>
-            <p><a href="/subscriptions/">View my subscriptions...</a></p>
         </div>
 
     </div>
 </form>
+
+<div class="row">
+    <div class="span10 offset1">
+            <p><a href="/subscriptions/">View my subscriptions...</a></p>
+    </div>
+</div>
