@@ -52,7 +52,7 @@ namespace IdnoPlugins\Subscribe\Pages {
                                 $owner = \IdnoPlugins\Subscribe\Main::getAuthorFromMF2($mf2);
                                 
                                 // Check that author is a valid subscription
-                                if ($subscriptons = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscription', ['subscription' =>  $owner['url']]))
+                                if ($subscriptions = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscription', ['subscription' =>  $owner['url']]))
                                 {
                                     foreach ($subscriptions as $subscription) {
                                

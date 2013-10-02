@@ -51,7 +51,7 @@ namespace IdnoPlugins\Subscribe {
                 case 'CREATE_UPDATE' :
                 default:
                     // POST update
-                    $endpoint = $this->subscriber_endpoint; 
+                    $endpoint = $this->subscriber_endpoint;  
                     \Idno\Core\Webservice::post($endpoint, [
                         'subscription' => $permalink
                     ]);

@@ -1,6 +1,12 @@
 <?php
 $object = $vars['object'];
-$owner = IdnoPlugins\Subscribe\Main::getAuthorFromMF2($object->subscriber_mf2);
+
+$error ="";
+try {
+    $owner = IdnoPlugins\Subscribe\Main::getAuthorFromMF2($object->subscriber_mf2);
+} catch (\IdnoPlugins\Subscribe\SubscriptionException $e) {
+    $error = $e->getMessage();
+}
 
 ?>
 <div class="row idno-entry idno-entry-<?php
@@ -41,7 +47,9 @@ $owner = IdnoPlugins\Subscribe\Main::getAuthorFromMF2($object->subscriber_mf2);
                 <a class="icon-globe" href="<?= $vars['object']->subscriber;?>" target="_blank"> <?= $vars['object']->subscriber;?></a>
             </p>
             
-            
+            <?php if (!empty($error)) { ?>
+            <div class="alert"><?= $error; ?></div>
+            <?php } ?>
             
             
             

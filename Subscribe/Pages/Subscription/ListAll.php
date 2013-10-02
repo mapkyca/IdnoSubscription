@@ -5,6 +5,7 @@ namespace IdnoPlugins\Subscribe\Pages\Subscription {
     class ListAll extends \Idno\Common\Page {
 
         function getContent() {
+            
             $this->gatekeeper();    // This functionality is for logged-in users only
 
             $t = \Idno\Core\site()->template();

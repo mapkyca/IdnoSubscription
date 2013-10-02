@@ -29,17 +29,19 @@ namespace IdnoPlugins\Subscribe {
         }
 
         function registerEventHooks() {
-            \Idno\Core\site()->addEventHook('save', function(\Idno\Core\Event $event) {
+            \Idno\Core\site()->addEventHook('saved', function(\Idno\Core\Event $event) {
                         $object = $event->data()['object'];
 
                         // Check that this is an activity stream object, then notify subscriptions
-                        if ($object->getActivityStreamsObjectType()) {
+                        if ($object instanceof \Idno\Entities\ActivityStreamPost) {
+                            $object = $object->getObject();
+                        //if ($object->getActivityStreamsObjectType()) {
 
                             // Get subscriptions
-                            if ($result = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscriber', ['subscription' => \Idno\Core\site()->session()->currentUserUUID()])) {
+                            if ($result = \Idno\Core\site()->db()->getObjects('IdnoPlugins\Subscribe\Subscriber', ['subscription' => \Idno\Core\site()->session()->currentUser()->getUrl()])) {
 
-                                foreach ($result as $subscriber) {
-                                    $subscriber->notify($object->getUUID());
+                                foreach ($result as $subscriber) {                                 
+                                    $subscriber->notify($object->getUrl());
                                 }
                             }
                         }

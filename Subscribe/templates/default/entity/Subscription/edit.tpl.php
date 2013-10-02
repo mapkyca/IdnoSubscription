@@ -31,3 +31,9 @@
             <p><a href="/subscriptions/">View my subscriptions...</a></p>
     </div>
 </div>
+
+<div class="row">
+    <div class="span10 offset1">
+            <p><a href="/subscribers/">View my subscribers...</a></p>
+    </div>
+</div>
