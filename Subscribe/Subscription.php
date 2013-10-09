@@ -53,6 +53,23 @@ namespace IdnoPlugins\Subscribe {
                 if ($result['response'] >= 300) // handle poorly written endpoints, accept any 200 code
                     throw new SubscriptionException("Subscription attempt reported code {$result['response']}");
             }
+            
+            $acls = \Idno\Entities\AccessGroup::getOne([
+               'owner' => \Idno\Core\site()->session()->currentUserUUID(),
+               'access_group_type' => 'subscription'
+            ]);
+            
+            if (empty($acls)) {
+                $acls = new \Idno\Entities\AccessGroup();
+                $acls->title = "People I follow";
+                $acls->acces_group_type = 'subscription';
+            }
+            
+            $url = Main::getUserByProfileURL($this->subscription);
+            if ($url) $url = $url->getUUID ();
+            else $url = $this->subscription;
+            $acls->addMember($url);
+            $acls->save();
         }
 
         /**
@@ -64,6 +81,23 @@ namespace IdnoPlugins\Subscribe {
                 if ($result['response'] >= 300) // handle poorly written endpoints, accept any 200 code
                     throw new SubscriptionException("Unsubscribe attempt reported code {$result['response']}");
             }
+            
+            $acls = \Idno\Entities\AccessGroup::getOne([
+               'owner' => \Idno\Core\site()->session()->currentUserUUID(),
+               'access_group_type' => 'subscription'
+            ]);
+            
+            if (empty($acls)) {
+                $acls = new \Idno\Entities\AccessGroup();
+                $acls->title = "People I follow";
+                $acls->acces_group_type = 'subscription';
+            }
+            
+            $url = Main::getUserByProfileURL($this->subscription);
+            if ($url) $url = $url->getUUID ();
+            else $url = $this->subscription;
+            $acls->addMember($url);
+            $acls->save();
         }
 
     }
