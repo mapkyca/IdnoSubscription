@@ -62,13 +62,17 @@ namespace IdnoPlugins\Subscribe {
             if (empty($acls)) {
                 $acls = new \Idno\Entities\AccessGroup();
                 $acls->title = "People I follow";
-                $acls->acces_group_type = 'subscription';
+                $acls->access_group_type = 'subscription';
             }
             
             $url = Main::getUserByProfileURL($this->subscription);
             if ($url) $url = $url->getUUID ();
             else $url = $this->subscription;
-            $acls->members['read'][] = $url;
+            
+            $acl_array = $acls->members;
+            $acl_array['read'][] = $url;
+            $acls->members = $acl_array;
+            
             $acls->save();
         }
 
@@ -90,7 +94,7 @@ namespace IdnoPlugins\Subscribe {
             if (empty($acls)) {
                 $acls = new \Idno\Entities\AccessGroup();
                 $acls->title = "People I follow";
-                $acls->acces_group_type = 'subscription';
+                $acls->access_group_type = 'subscription';
             }
             
             $url = Main::getUserByProfileURL($this->subscription);
