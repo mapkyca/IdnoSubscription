@@ -68,7 +68,7 @@ namespace IdnoPlugins\Subscribe {
             $url = Main::getUserByProfileURL($this->subscription);
             if ($url) $url = $url->getUUID ();
             else $url = $this->subscription;
-            $acls->addMember($url);
+            $acls->members['read'][] = $url;
             $acls->save();
         }
 
@@ -96,7 +96,7 @@ namespace IdnoPlugins\Subscribe {
             $url = Main::getUserByProfileURL($this->subscription);
             if ($url) $url = $url->getUUID ();
             else $url = $this->subscription;
-            $acls->addMember($url);
+            $acls->removeMember($url);
             $acls->save();
         }
 
